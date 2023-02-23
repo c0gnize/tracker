@@ -37,7 +37,7 @@ class TrackerObj implements Tracker {
     if (this.buf.length >= MIN_BUF_SIZE) {
       this.send()
     } else {
-      this.tid = window.setTimeout(() => this.send, WAIT_SEND_MS)
+      this.tid = window.setTimeout(this.send, WAIT_SEND_MS)
     }
   }
 
@@ -52,13 +52,13 @@ class TrackerObj implements Tracker {
   }
 
   private send = async () => {
-    if (this.buf.length === 0) {
-      return
-    }
-
     if (this.tid) {
       window.clearTimeout(this.tid)
       this.tid = undefined
+    }
+
+    if (this.buf.length === 0) {
+      return
     }
 
     let buf = [...this.buf]
