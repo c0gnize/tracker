@@ -2,11 +2,10 @@
   "name": "tracker",
   "version": "0.0.1",
   "description": "Tracking user activity",
-  "type": "module",
   "scripts": {
-    "build": "npm run build:server && npm run build:tracker",
-    "build:server": "esbuild src/server.ts --platform=node --outdir=dist",
-    "build:tracker": "esbuild src/tracker.ts --bundle --outfile=dist/tracker.js",
+    "build": "npm run build:server && npm run build:client",
+    "build:server": "esbuild src/server.ts --bundle --platform=node --outdir=dist",
+    "build:client": "esbuild src/tracker.ts --bundle --outdir=dist",
     "copy": "copyfiles -f src/index.html dist",
     "server": "node dist/server.js",
     "start": "npm run copy && npm run build && npm run server"
@@ -21,9 +20,11 @@
   "license": "ISC",
   "dependencies": {
     "@koa/cors": "^4.0.0",
+    "dotenv": "^16.0.3",
     "koa": "^2.14.1",
     "koa-body": "^6.0.1",
     "koa-router": "^12.0.0",
+    "mongodb": "^5.0.1",
     "zod": "^3.20.6"
   },
   "devDependencies": {
