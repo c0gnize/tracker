@@ -1,14 +1,18 @@
-# Запуск
+# Tracker
+
+Track user activity on site and stores activity to MongoDB
+
+# Start
 
 ```sh
 npm install
 npm run start
 ```
 
-# Задать специфичный адрес mongodb
+# Set cusom MongoDB URL
 
-Создать файл `.env`
+Create file `.env`
 ```sh
 cp .env.sample .env
 ```
-и отредактировать переменную `MONGO_URL`
+and edit the `MONGO_URL` variable
