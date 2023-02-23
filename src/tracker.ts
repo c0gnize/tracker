@@ -19,36 +19,46 @@ class TrackerObj implements Tracker {
   private tid: number | undefined
 
   constructor() {
-    addEventListener('beforeunload', () => this.send())
+    addEventListener('beforeunload', this.send)
   }
 
-  track(event: string, ...tags: string[]): void {
+  private addEvent(event: string, ...tags: string[]): void {
     this.buf.push({
       event,
       tags,
       url: window.location.href,
       title: window.document.title,
-      ts: Date.now()
+      ts: Date.now(),
     })
+  }
 
-    if (this.tid) {
-      window.clearTimeout(this.tid)
-      this.tid = undefined
-    }
-
+  track(event: string, ...tags: string[]): void {
+    this.addEvent(event, ...tags)
     if (this.buf.length >= MIN_BUF_SIZE) {
       this.send()
     } else {
-      this.tid = window.setTimeout(() => {
-        this.tid = undefined
-        this.send()
-      }, WAIT_SEND_MS)
+      this.tid = window.setTimeout(() => this.send, WAIT_SEND_MS)
     }
+  }
+
+  trackGo(mouseEvent: MouseEvent, event: string, ...tags: string[]) {
+    mouseEvent.preventDefault()
+
+    const el = mouseEvent.target as HTMLAnchorElement
+    el.style.cursor = 'wait'
+
+    this.addEvent(event, ...tags)
+    this.send().then(() => (self.location.href = el.href))
   }
 
   private send = async () => {
     if (this.buf.length === 0) {
       return
+    }
+
+    if (this.tid) {
+      window.clearTimeout(this.tid)
+      this.tid = undefined
     }
 
     let buf = [...this.buf]
@@ -58,9 +68,9 @@ class TrackerObj implements Tracker {
       let res = await fetch('http://localhost:8888/track', {
         method: 'POST',
         headers: {
-          ['Content-Type']: 'application/json'
+          ['Content-Type']: 'text/plain',
         },
-        body: JSON.stringify(buf)
+        body: JSON.stringify(buf),
       })
 
       if (res.ok || res.status === 422) {

@@ -34,7 +34,7 @@ trackRouter.get('/tracker', ctx => {
 })
 
 trackRouter.post('/track', ctx => {
-  let schema = EVENTS_SCHEMA.safeParse(ctx.request.body)
+  let schema = EVENTS_SCHEMA.safeParse(JSON.parse(ctx.request.body))
   if (!schema.success) {
     ctx.status = 422
     return
