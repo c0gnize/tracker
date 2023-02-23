@@ -1,6 +1,6 @@
 # Tracker
 
-Track user activity on site and stores activity to MongoDB
+Tracks user activity on the site and saves it to MongoDB
 
 # Start
 
