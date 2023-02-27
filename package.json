@@ -4,10 +4,10 @@
   "description": "Tracking user activity",
   "scripts": {
     "build": "npm run build:server && npm run build:client",
-    "build:server": "esbuild src/server.ts --bundle --platform=node --outdir=dist",
-    "build:client": "esbuild src/tracker.ts --bundle --outdir=dist",
+    "build:server": "esbuild src/server/app.ts --bundle --platform=node --outdir=dist",
+    "build:client": "esbuild src/client/tracker.ts --bundle --outdir=dist",
     "copy": "copyfiles -f src/index.html dist",
-    "server": "node dist/server.js",
+    "server": "node dist/app.js",
     "start": "npm run copy && npm run build && npm run server"
   },
   "keywords": [

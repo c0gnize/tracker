@@ -1,4 +1,4 @@
-import type { Tracker } from 'tracker'
+import type { Tracker } from './client/tracker'
 
 declare global {
   interface Window {
